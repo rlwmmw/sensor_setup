@@ -80,19 +80,43 @@ DISABLE_IPV6=$DISABLE_IPV6
 EOF
 }
 
-read -p "Would you like to perform initial setup? (y/n) :" input
-shopt -s nocasematch
-if [[ $input =~ (y|yes) ]]; then
-   shopt -u nocasematch
-   initial_setup;
-fi
-shopt -u nocasematch
+setup_network () {
+echo "This module is not yet complete"
+menu;
+}
 
+setup_openvpn () {
+echo "This module is not yet complete"
+menu;
+}
+
+setup_bro () {
+echo "This module is not yet complete"
+menu;
+}
+
+setup_suricata () {
+echo "This module is not yet complete"
+menu;
+}
+
+setup_beats () {
+echo "This module is not yet complete"
+menu;
+}
+
+setup_salt () {
+echo "This module is not yet complete"
+menu;
+}
+
+
+menu () {
 cat > /etc/secops/menu.lst <<EOF
 
      ##########################################
      ####### What would you like to do? #######
-     ##########################################	
+     ##########################################
      #                                        #
      #     1. Perform initial setup           #
      #     2. Configure Networking            #
@@ -101,15 +125,46 @@ cat > /etc/secops/menu.lst <<EOF
      #     5. Configure Suricata              #
      #     6. Configure Beats                 #
      #     7. Configure Salt                  #
-     #     8. Configure ???                   #
+     #     8. Exit Utility                    #
      #                                        #
      ##########################################
 
 EOF
 cat /etc/secops/menu.lst
 
-read -p "Please select an action from above : " input
-echo $input
+number=""
+while [[ ! $number =~ ^[1-8]$ ]]; do
+    read -p "Please select an action from above : " number
+done
+case $number in
+    1)
+	initial_setup
+	;;
+	2)
+	setup_network
+	;;
+	3)
+	setup_openvpn
+	;;
+	4)
+	setup_bro
+	;;
+	5)
+	setup_suricata
+	;;
+	6)
+	setup_beats
+	;;
+	7)
+	setup_salt
+	;;
+	8)
+	exit 0
+esac
+}
+
+menu;
+exit 0
 
 kj
 :wq
